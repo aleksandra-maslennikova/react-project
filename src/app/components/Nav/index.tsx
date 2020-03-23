@@ -2,40 +2,34 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
-import { History } from 'history'
+import { History } from 'history';
 
 // Instruments
 import Styles from './styles.module.css';
 import { book } from '../../routes/book';
 
 export const Nav: FC<History> = (props: History) => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const _navigateToRoot = () => dispatch(push(book.root));
-    const _navigateToPanel = () => dispatch(push(book.panel));
-    const _navigateToProfile = () => dispatch(push(book.profile));
+  const _navigateToRoot = () => dispatch(push(book.root));
+  const _navigateToPanel = () => dispatch(push(book.panel));
+  const _navigateToProfile = () => dispatch(push(book.profile));
 
-    const {
-        location: { pathname }
-    } = props;
+  const {
+    location: { pathname },
+  } = props;
 
-    return (
-        <section className={Styles.nav}>
-            {pathname === book.root ? null : (
-                <>
-                    <button onClick={_navigateToProfile}>
-                        Профиль
-                    </button>
-                    <button onClick={_navigateToPanel}>
-                        Панель
-                    </button>
-                    <button
-                        className={Styles.bridge}
-                        onClick={_navigateToRoot}>
-                        Мостик
-                    </button>
-                </>
-            )}
-        </section>
-    );
-}
+  return (
+    <section className={Styles.nav}>
+      {pathname === book.root ? null : (
+        <>
+          <button onClick={_navigateToProfile}>Профиль</button>
+          <button onClick={_navigateToPanel}>Панель</button>
+          <button className={Styles.bridge} onClick={_navigateToRoot}>
+            Мостик
+          </button>
+        </>
+      )}
+    </section>
+  );
+};

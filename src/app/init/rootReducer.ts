@@ -13,10 +13,10 @@ import { history } from './middleware';
 const router = connectRouter(history);
 
 export const rootReducer = combineReducers({
-    feed,
-    profile,
-    router,
-    form
-})
+  feed,
+  profile,
+  router,
+  form,
+});
 
 export type AppState = ReturnType<typeof rootReducer>;

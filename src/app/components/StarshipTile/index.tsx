@@ -8,63 +8,57 @@ import Styles from './styles.module.css';
 import { book } from '../../routes/book';
 
 type PropsT = {
-    name: string,
-    starship_class: string,
-    manufacturer: string,
-    crew: string
-}
+  name: string;
+  starship_class: string;
+  manufacturer: string;
+  crew: string;
+};
 
-export const StarshipTile:FC<PropsT> = (props: PropsT) => {
-    const dispatch = useDispatch();
+export const StarshipTile: FC<PropsT> = (props: PropsT) => {
+  const dispatch = useDispatch();
 
-    const {
-        name,
-        starship_class,
-        manufacturer,
-        crew
-    } = props;
+  const {
+    name, starship_class, manufacturer, crew,
+  } = props;
 
-    const _navigateToStarship = () => {
-        const url = `${book.panel}/${name.replace(/ /g, '-').toLowerCase()}`;
-        dispatch(push(url));
-    }
+  const _navigateToStarship = () => {
+    const url = `${book.panel}/${name.replace(/ /g, '-').toLowerCase()}`;
+    dispatch(push(url));
+  };
 
-    return (
-        <section
-            className={Styles.starshipTile}
-            onClick={_navigateToStarship}
-        >
-            <h1>Ω</h1>
-            <div className={Styles.description}>
-                <div>
-                    <span>Имя:</span>
-                    <span>
-                        &nbsp;
-                        {name}
-                    </span>
-                </div>
-                <div>
-                    <span>Класс:</span>
-                    <span>
-                        &nbsp;
-                        {starship_class}
-                    </span>
-                </div>
-                <div>
-                    <span>Производитель:</span>
-                    <span>
-                        &nbsp;
-                        {manufacturer}
-                    </span>
-                </div>
-                <div>
-                    <span>Команда:</span>
-                    <span>
-                        &nbsp;
-                        {crew}
-                    </span>
-                </div>
-            </div>
-        </section>
-    );
-}
+  return (
+    <section className={Styles.starshipTile} onClick={_navigateToStarship}>
+      <h1>Ω</h1>
+      <div className={Styles.description}>
+        <div>
+          <span>Имя:</span>
+          <span>
+            &nbsp;
+            {name}
+          </span>
+        </div>
+        <div>
+          <span>Класс:</span>
+          <span>
+            &nbsp;
+            {starship_class}
+          </span>
+        </div>
+        <div>
+          <span>Производитель:</span>
+          <span>
+            &nbsp;
+            {manufacturer}
+          </span>
+        </div>
+        <div>
+          <span>Команда:</span>
+          <span>
+            &nbsp;
+            {crew}
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+};

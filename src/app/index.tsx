@@ -11,9 +11,9 @@ import { history } from './init/middleware';
 import { Routes } from './routes';
 
 export const App: FC = () => (
-    <Provider store={store}>
-        <Router history={history}>
-            <Routes />
-        </Router>
-    </Provider>
+  <Provider store={store}>
+    <Router history={history}>
+      <Routes />
+    </Router>
+  </Provider>
 );

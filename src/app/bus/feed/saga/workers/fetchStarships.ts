@@ -1,29 +1,26 @@
-// Core
-import { put, call, delay } from 'redux-saga/effects';
-import { SagaIterator } from 'redux-saga';
-
 // Instruments
-import { startFetching, stopFetching, fill, setFetchingError } from '../../actions';
-import { Starships } from '../../types';
+import {
+  startFetching,
+  stopFetching,
+  fill,
+  setFetchingError
+} from "../../actions";
+import { Starships } from "../../types";
 
+// Workers
+import { makeRequestWithSpinner } from "../../../../workers";
 
-export function* fetchStarships(): SagaIterator {
-    try {
-        yield put(startFetching());
+// API
+import { api } from "../../../../api";
 
-        const response: Response = yield call(fetch, 'https://swapi.co/api/starships');
+export function* fetchStarships(): Generator {
+  const options = {
+    fetcher: api.starships.fetch,
+    startFetching,
+    stopFetching,
+    fill,
+    setErrorAction: setFetchingError
+  };
 
-        const { results }: { results: Starships } = yield call([response, response.json]);
-
-        if (response.status !== 200) {
-            throw new Error(`We can't receive starships 😢`);
-        }
-
-        yield delay(200);
-        yield put(fill(results));
-    } catch (error) {
-        yield put(setFetchingError(error));
-    } finally {
-        yield put(stopFetching());
-    }
+  yield makeRequestWithSpinner<Starships>(options);
 }
