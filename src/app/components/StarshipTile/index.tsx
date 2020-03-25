@@ -1,5 +1,5 @@
 // Core
-import React, { FC, Attributes } from 'react';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { push } from 'connected-react-router';
 
@@ -18,16 +18,16 @@ export const StarshipTile: FC<PropsT> = (props: PropsT) => {
   const dispatch = useDispatch();
 
   const {
-    name, starship_class, manufacturer, crew,
+    name, starship_class: starshipClass, manufacturer, crew,
   } = props;
 
-  const _navigateToStarship = () => {
+  const navigateToStarship = (): void => {
     const url = `${book.panel}/${name.replace(/ /g, '-').toLowerCase()}`;
     dispatch(push(url));
   };
 
   return (
-    <section className={Styles.starshipTile} onClick={_navigateToStarship}>
+    <button type="button" className={Styles.starshipTile} onClick={navigateToStarship}>
       <h1>Ω</h1>
       <div className={Styles.description}>
         <div>
@@ -41,7 +41,7 @@ export const StarshipTile: FC<PropsT> = (props: PropsT) => {
           <span>Класс:</span>
           <span>
             &nbsp;
-            {starship_class}
+            {starshipClass}
           </span>
         </div>
         <div>
@@ -59,6 +59,6 @@ export const StarshipTile: FC<PropsT> = (props: PropsT) => {
           </span>
         </div>
       </div>
-    </section>
+    </button>
   );
 };

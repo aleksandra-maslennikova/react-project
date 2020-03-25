@@ -8,10 +8,12 @@ import { customInput, discounts } from '../Fields';
 import {
   required, minLength, maxLength, matchesPassword, asyncValidate,
 } from './validation';
-import { FormValues } from '../Registration';
 import './styles.css';
+import { FormValues } from './types';
 
-const RegistrationComponent: FC<InjectedFormProps<FormValues, {}, string>> = ({ handleSubmit }) => (
+type Props = InjectedFormProps<FormValues, {}, string>
+
+const RegistrationComponent: FC<Props> = ({ handleSubmit }: Props) => (
   <form onSubmit={handleSubmit}>
     <Field
       name="firstName"

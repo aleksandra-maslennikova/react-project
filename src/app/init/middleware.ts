@@ -9,15 +9,15 @@ export const logger = createLogger({
   duration: true,
   collapsed: true,
   colors: {
-    title: (action: AnyAction) => (action.error ? 'firebrick' : 'deepskyblue'),
-    prevState: () => '#1C5FAF',
-    action: () => '#149945',
-    nextState: () => '#A47104',
-    error: () => '#ff0005',
+    title: (action: AnyAction): string => (action.error ? 'firebrick' : 'deepskyblue'),
+    prevState: (): string => '#1C5FAF',
+    action: (): string => '#149945',
+    nextState: (): string => '#A47104',
+    error: (): string => '#ff0005',
   },
 });
 
-const __DEV__ = process.env.NODE_ENV === 'development';
+const DEV = process.env.NODE_ENV === 'development';
 
 const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
@@ -25,7 +25,7 @@ const routerMiddleware: Middleware = createRouterMiddleware(history);
 
 const middleware = [sagaMiddleware, routerMiddleware];
 
-if (__DEV__) {
+if (DEV) {
   middleware.push(logger);
 }
 

@@ -1,5 +1,5 @@
 // Core
-import React from 'react';
+import React, { FC } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 // Components
@@ -8,7 +8,7 @@ import {
 } from '../components';
 import { book } from './book';
 
-export const Routes = () => (
+export const Routes: FC = () => (
   <>
     <Route component={Nav} path="/" />
     <Switch>

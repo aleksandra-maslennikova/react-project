@@ -7,13 +7,9 @@ import {
   WrappedFieldArrayProps,
 } from 'redux-form';
 
-const getValidityClassName = (meta: WrappedFieldMetaProps) => {
+const getValidityClassName = (meta: WrappedFieldMetaProps): string => {
   if (meta.asyncValidating) {
     return 'async-validating';
-  }
-
-  if (meta.active) {
-    return;
   }
 
   if (meta.touched && meta.invalid) {
@@ -23,16 +19,18 @@ const getValidityClassName = (meta: WrappedFieldMetaProps) => {
   if (meta.touched && meta.valid) {
     return 'valid';
   }
+  return '';
 };
 
 type PropsT = {
   label: string;
   type: string;
+  id: string;
 } & WrappedFieldProps;
 
 export const customInput: FC<PropsT> = (props: PropsT) => {
   const {
-    label, input, type, meta,
+    label, input, type, meta, id,
   } = props;
 
   return (
@@ -44,8 +42,8 @@ export const customInput: FC<PropsT> = (props: PropsT) => {
         getValidityClassName(meta),
       )}
     >
-      <label>{label}</label>
-      <input {...input} type={type} />
+      <label htmlFor={id}>{label}</label>
+      <input id={id} {...input} type={type} />
       {meta.error && meta.touched && !meta.active && (
         <div className="feedback-text error-text">{meta.error}</div>
       )}
@@ -53,20 +51,23 @@ export const customInput: FC<PropsT> = (props: PropsT) => {
   );
 };
 
-export const customSelect: FC<PropsT> = (props: PropsT) => (
-  <div className="custom-select-container">
-    <label>{props.label}</label>
-    <select {...props.input}>
-      <option value="tabs">Tabs</option>
-      <option value="spaces">Spaces</option>
-    </select>
-  </div>
-);
+export const customSelect: FC<PropsT> = (props: PropsT) => {
+  const { id, input, label } = props;
+  return (
+    <div className="custom-select-container">
+      <label htmlFor={id}>{label}</label>
+      <select id={id} {...input}>
+        <option value="tabs">Tabs</option>
+        <option value="spaces">Spaces</option>
+      </select>
+    </div>
+  );
+};
 
-export const discounts: FC<WrappedFieldArrayProps> = ({ fields }) => (
+export const discounts: FC<WrappedFieldArrayProps> = ({ fields }: WrappedFieldArrayProps) => (
   <div className="custom-field-array-container">
     {fields.map((code, index) => (
-      <div key={index} className="field-array-item">
+      <div key={code} className="field-array-item">
         <Field
           name={code}
           type="text"
@@ -74,14 +75,14 @@ export const discounts: FC<WrappedFieldArrayProps> = ({ fields }) => (
           label={`Discount Code #${index + 1}`}
           autoFocus
         />
-        <button type="button" onClick={() => fields.remove(index)}>
+        <button type="button" onClick={(): void => fields.remove(index)}>
           &times;
         </button>
       </div>
     ))}
     <button
       type="button"
-      onClick={() => {
+      onClick={(): void => {
         fields.push('');
       }}
     >

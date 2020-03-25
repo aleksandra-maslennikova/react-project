@@ -1,7 +1,8 @@
 // Core
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { createMatchSelector } from 'connected-react-router';
+import { createMatchSelector, RouterRootState } from 'connected-react-router';
+import { match } from 'react-router';
 import { book } from '../../routes/book';
 import { AppState } from '../../init/rootReducer';
 import { Starship as StarshipT, Starships } from '../../bus/feed/types';
@@ -9,26 +10,32 @@ import { Starship as StarshipT, Starships } from '../../bus/feed/types';
 // Instruments
 import Styles from './styles.module.css';
 
+type ParamsT = {
+  starship: string;
+}
+
 export const Starship: FC = () => {
   const starships = useSelector<AppState, Starships>((state: AppState) => state.feed.starships);
-  const matchSelector = createMatchSelector(book.starship);
-  const state = useSelector((state: AppState) => state);
-  const match: any = matchSelector(state);
-  if (!match) {
+  const matchSelector = createMatchSelector<RouterRootState, ParamsT>(book.starship);
+  const appState = useSelector((state: AppState) => state);
+  const matched: match<ParamsT> | null = matchSelector(appState);
+  if (!matched) {
     return null;
   }
-  const starshipName = match.params.starship;
+  const starshipName = matched.params.starship;
   if (!starships.length) {
     return null;
   }
   const starship: StarshipT | undefined = starships && starships.length
-    ? starships.find((starship: StarshipT) => starship.name.replace(/ /g, '-').toLowerCase() === starshipName)
+    ? starships.find(
+      (st: StarshipT) => st.name.replace(/ /g, '-').toLowerCase() === starshipName,
+    )
     : undefined;
   if (!starship) {
     return null;
   }
   const {
-    name, starship_class, manufacturer, crew,
+    name, starship_class: starshipClass, manufacturer, crew,
   } = starship;
   return (
     <section className={Styles.starship}>
@@ -45,7 +52,7 @@ export const Starship: FC = () => {
           <span>Класс:</span>
           <span>
             &nbsp;
-            {starship_class}
+            {starshipClass}
           </span>
         </div>
         <div>

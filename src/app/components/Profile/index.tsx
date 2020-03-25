@@ -20,7 +20,7 @@ type FormValues = {
 export const Profile: FC = () => {
   const dispatch = useDispatch();
 
-  const _submit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
+  const submit = (values: FormValues, actions: FormikHelpers<FormValues>): void => {
     dispatch(startFetching());
     actions.setSubmitting(false);
     dispatch(fill(values));
@@ -48,7 +48,7 @@ export const Profile: FC = () => {
       </h1>
       <Formik
         initialValues={{ firstName, lastName }}
-        render={() => (
+        render={(): JSX.Element => (
           <Form>
             <Field className={disabledStyle} disabled={isFetching} name="firstName" type="text" />
             <Field className={disabledStyle} disabled={isFetching} name="lastName" type="text" />
@@ -57,7 +57,7 @@ export const Profile: FC = () => {
             </button>
           </Form>
         )}
-        onSubmit={_submit}
+        onSubmit={submit}
       />
     </section>
   );
